@@ -1,5 +1,5 @@
 import './App.css'
-import Overlay from './assets/Overlay';
+import Overlay from './pages/Overlay';
 
 function App() {
 
