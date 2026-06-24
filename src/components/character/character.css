@@ -1,0 +1,81 @@
+.character-area {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  overflow: hidden;
+}
+
+.debug-panel {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  color: white;
+}
+
+.character-wrap {
+  position: absolute;
+  left: 50%;
+  bottom: 100px;
+  width: 600px;
+  height: 600px;
+  transform: translateX(-50%);
+  outline: 1px dashed rgba(255, 255, 255, 0.3);
+}
+
+.character-img {
+  position: absolute;
+  left: 120px;
+  top: 40px;
+  width: 240px;
+  z-index: 2;
+  user-select: none;
+  pointer-events: none;
+}
+
+.hand-box {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 80px;
+  z-index: 10;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  transition: transform 80ms ease;
+}
+
+.hand-box:active {
+  cursor: grabbing;
+}
+
+.hand-img {
+  width: 100%;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+.left-hand {
+  rotate: 18deg;
+}
+
+.right-hand {
+  rotate: -18deg;
+}
+
+.keyboard-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 340px;
+  z-index: 5;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.keyboard-img:active {
+  cursor: grabbing;
+}
