@@ -7,6 +7,12 @@ type Position = {
   y: number;
 };
 
-type LayoutState = Record<DraggablePart, Position>;
+type TransformState = {
+  x: number;
+  y: number;
+  scale: number;
+};
 
-export type { HandState, DraggablePart, Position, LayoutState };
+type LayoutState = Record<DraggablePart, TransformState>;
+
+export type { HandState, DraggablePart, Position, TransformState, LayoutState };

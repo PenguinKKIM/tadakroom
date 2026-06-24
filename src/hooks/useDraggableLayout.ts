@@ -1,25 +1,42 @@
 import { useEffect, useRef, useState } from 'react';
 import { CHARACTER_LAYOUT_STORAGE_KEY, DEFAULT_LAYOUT } from '../constants/characterLayout';
-import type { DraggablePart, LayoutState, Position } from '../types/character';
+import type { DraggablePart, LayoutState, TransformState } from '../types/character';
+
+const getInitialLayout = (): LayoutState => {
+  const savedLayout = localStorage.getItem(CHARACTER_LAYOUT_STORAGE_KEY);
+
+  if (!savedLayout) {
+    return DEFAULT_LAYOUT;
+  }
+
+  try {
+    const parsedLayout = JSON.parse(savedLayout) as Partial<Record<DraggablePart, Partial<TransformState>>>;
+
+    return {
+      leftHand: {
+        ...DEFAULT_LAYOUT.leftHand,
+        ...parsedLayout.leftHand,
+      },
+      rightHand: {
+        ...DEFAULT_LAYOUT.rightHand,
+        ...parsedLayout.rightHand,
+      },
+      keyboard: {
+        ...DEFAULT_LAYOUT.keyboard,
+        ...parsedLayout.keyboard,
+      },
+    };
+  } catch {
+    return DEFAULT_LAYOUT;
+  }
+};
 
 export const useDraggableLayout = () => {
-  const [layout, setLayout] = useState<LayoutState>(() => {
-    const savedLayout = localStorage.getItem(CHARACTER_LAYOUT_STORAGE_KEY);
-
-    if (!savedLayout) {
-      return DEFAULT_LAYOUT;
-    }
-
-    try {
-      return JSON.parse(savedLayout) as LayoutState;
-    } catch {
-      return DEFAULT_LAYOUT;
-    }
-  });
+  const [layout, setLayout] = useState<LayoutState>(getInitialLayout);
 
   const [draggingPart, setDraggingPart] = useState<DraggablePart | null>(null);
 
-  const dragOffsetRef = useRef<Position>({
+  const dragOffsetRef = useRef({
     x: 0,
     y: 0,
   });
@@ -47,6 +64,7 @@ export const useDraggableLayout = () => {
     setLayout((prevLayout) => ({
       ...prevLayout,
       [draggingPart]: {
+        ...prevLayout[draggingPart],
         x: event.clientX - dragOffsetRef.current.x,
         y: event.clientY - dragOffsetRef.current.y,
       },
@@ -55,6 +73,16 @@ export const useDraggableLayout = () => {
 
   const handlePointerUp = () => {
     setDraggingPart(null);
+  };
+
+  const handleScaleChange = (part: DraggablePart, scale: number) => {
+    setLayout((prevLayout) => ({
+      ...prevLayout,
+      [part]: {
+        ...prevLayout[part],
+        scale,
+      },
+    }));
   };
 
   const handleResetLayout = () => {
@@ -67,6 +95,7 @@ export const useDraggableLayout = () => {
     handlePointerDown,
     handlePointerMove,
     handlePointerUp,
+    handleScaleChange,
     handleResetLayout,
   };
 };
