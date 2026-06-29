@@ -1,17 +1,21 @@
-.character-area {
-  position: relative;
+.character-section {
   width: 100%;
-  height: 100vh;
-  background: transparent;
-  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.debug-panel {
+.character-area {
+  position: relative;
+}
+
+/* .debug-panel {
   position: absolute;
   top: 20px;
   left: 20px;
   z-index: 100;
-}
+} */
 
 .scale-panel {
   display: flex;
@@ -19,7 +23,7 @@
   gap: 8px;
 }
 
-.character-wrap {
+/* .character-wrap {
   position: absolute;
   left: 50%;
   bottom: 100px;
@@ -27,12 +31,10 @@
   height: 600px;
   transform: translateX(-50%);
   outline: 1px dashed rgba(255, 255, 255, 0.3);
-}
+} */
 
 .character-img {
-  position: absolute;
-  left: 120px;
-  top: 40px;
+  position: relative;
   width: 240px;
   z-index: 2;
   user-select: none;

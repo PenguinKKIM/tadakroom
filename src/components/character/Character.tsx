@@ -18,7 +18,7 @@ const Character = () => {
   } = useDraggableLayout();
 
   return (
-    <section>
+    <section className="character-section ">
       <div className="debug-panel">
         <p>마지막 키: {lastKey}</p>
         <button type="button" onClick={handleResetLayout}>
