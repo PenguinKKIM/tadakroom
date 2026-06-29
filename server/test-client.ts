@@ -1,5 +1,7 @@
+import 'dotenv/config';
 import WebSocket from 'ws';
-import { PORT } from '../src/constants/portNumber';
+
+const PORT = Number(process.env.WS_PORT ?? 4000);
 
 const socket = new WebSocket(`ws://localhost:${PORT}`);
 

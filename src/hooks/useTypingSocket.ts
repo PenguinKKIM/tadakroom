@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { PORT } from '../constants/portNumber';
 
 type UseTypingSocketParams = {
   onTyping: () => void;
@@ -12,7 +11,11 @@ export const useTypingSocket = ({ onTyping }: UseTypingSocketParams) => {
   const socketRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://localhost:${PORT}`);
+    const WS_URL = import.meta.env.VITE_WS_URL;
+    if (!WS_URL) {
+      throw new Error('VITE_WS_URL이 설정되지 않았습니다.');
+    }
+    const socket = new WebSocket(WS_URL);
     socketRef.current = socket;
 
     socket.addEventListener('open', () => {

@@ -1,11 +1,13 @@
+import 'dotenv/config';
 import { WebSocketServer, WebSocket } from 'ws';
-import { PORT } from '../src/constants/portNumber';
+
+const PORT = Number(process.env.WS_PORT ?? 4000);
 
 const wss = new WebSocketServer({
   port: PORT,
 });
 
-type ClientType = 'overlay' | 'input' | 'unknow';
+type ClientType = 'overlay' | 'input' | 'unknown';
 
 type ClientInfo = {
   socket: WebSocket;
@@ -26,16 +28,16 @@ const sendToOverlays = (data: unknown) => {
 wss.on('connection', (socket) => {
   clients.set(socket, {
     socket,
-    type: 'unknow',
+    type: 'unknown',
   });
   console.log('클라이언트 연결');
-  socket.on('message', (rawMassage) => {
+  socket.on('message', (rawMessage) => {
     try {
-      const message = JSON.parse(rawMassage.toString());
+      const message = JSON.parse(rawMessage.toString());
       if (message.type === 'register') {
         clients.set(socket, {
           socket,
-          type: message.clientType ?? 'unknow',
+          type: message.clientType ?? 'unknown',
         });
         console.log(`클라이언트 등록됨: ${message.clientType}`);
         return;
