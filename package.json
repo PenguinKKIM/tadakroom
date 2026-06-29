@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "tsx server/index.ts",
+    "test:typing": "tsx server/test-client.ts",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
