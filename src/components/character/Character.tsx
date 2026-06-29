@@ -4,10 +4,17 @@ import keyboard from "../../assets/keyboard.png";
 import hand from "../../assets/hand.png";
 import { useDraggableLayout } from "../../hooks/useDraggableLayout";
 import { useTypingAnimation } from "../../hooks/useTypingAnimation";
+import { useTypingSocket } from "../../hooks/useTypingSocket";
+import { useCallback } from "react";
 
 const Character = () => {
-  const { lastKey, handState } = useTypingAnimation();
-
+  const { lastKey, handState, triggerTypingAnimation } = useTypingAnimation();
+  const handleSocketTyping = useCallback(() => {
+    triggerTypingAnimation();
+  }, [triggerTypingAnimation]);
+  const { socketStatus, sendTestTyping } = useTypingSocket({
+    onTyping: handleSocketTyping,
+  });
   const {
     layout,
     handlePointerDown,
@@ -20,9 +27,13 @@ const Character = () => {
   return (
     <section className="character-section ">
       <div className="debug-panel">
+        <p>소켓 상태: {socketStatus}</p>
         <p>마지막 키: {lastKey}</p>
         <button type="button" onClick={handleResetLayout}>
           위치 초기화
+        </button>
+        <button type="button" onClick={sendTestTyping}>
+          WebSocket 타이핑 테스트
         </button>
         <div className="scale-panel">
           <label>
